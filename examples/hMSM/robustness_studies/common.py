@@ -35,7 +35,7 @@ BEAM_HEIGHT = 20.0
 BASELINE_MESH = (150, 30)
 COMMON_EVALUATION_MESH = (200, 40)
 G_MODELS = ("mooney", "guth", "hill")
-MOVE_LIMIT = 0.05
+MOVE_LIMIT = 0.005
 
 HERE = Path(__file__).resolve().parent
 REPO_ROOT = HERE.parents[2]

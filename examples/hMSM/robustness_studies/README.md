@@ -8,9 +8,9 @@ The common fixed settings are NH2 elasticity, the two equal-and-opposite load
 cases, 50 load steps, the original volume constraints and `1.0 mm` filter
 radii, density-projection continuation from `beta=1` to `beta=4`, 100 maximum
 iterations, an optimization tolerance of `1e-5`, and an MMA move limit of
-`0.05`.
+`0.005`.
 
-The `0.05` move limit is deliberate and is held fixed across every robustness
+The `0.005` move limit is deliberate and is held fixed across every robustness
 case. It differs from the `0.005` value reported for the earlier manuscript
 run, so this suite is a controlled robustness comparison rather than a claim
 to reproduce that earlier optimization trajectory exactly.
