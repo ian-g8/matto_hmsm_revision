@@ -6,6 +6,8 @@ import argparse
 import csv
 from pathlib import Path
 
+import common
+
 from mpi4py import MPI
 
 from common import (
@@ -23,6 +25,9 @@ from common import (
     write_csv,
 )
 
+
+# The G(phi)-model comparison uses a fixed 0.05 MMA move limit.
+common.MOVE_LIMIT = 0.05
 
 CASES = {
     model: StudyCase(

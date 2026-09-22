@@ -194,17 +194,13 @@ def initialization_values(initialization_id):
     if initialization_id == "baseline_uniform":
         return {"rho": 0.50, "phi": 0.10, "theta": 0.0}
 
-    if initialization_id == "low_uniform":
-        return {"rho": 0.35, "phi": 0.05, "theta": np.pi / 4.0}
+    if initialization_id == "vertical_uniform":
+        return {"rho": 0.50, "phi": 0.10, "theta": np.pi / 2.0}
 
-    if initialization_id == "linear_x":
-        return {
-            "rho": lambda x: 0.30 + 0.40 * x[0] / BEAM_LENGTH,
-            "phi": lambda x: 0.05 + 0.10 * x[0] / BEAM_LENGTH,
-            "theta": lambda x: -np.pi / 2.0 + np.pi * x[0] / BEAM_LENGTH,
-        }
+    if initialization_id == "underfilled_uniform":
+        return {"rho": 0.35, "phi": 0.05, "theta": 0.0}
 
-    if initialization_id == "smooth_2d":
+    if initialization_id == "spatially_varying":
         def pattern(x):
             return (
                 np.sin(2.0 * np.pi * x[0] / BEAM_LENGTH)
@@ -224,7 +220,6 @@ def initialization_values(initialization_id):
 
     raise ValueError(f"unknown initialization '{initialization_id}'.")
 
-
 def initialization_description(initialization_id):
     """Machine-readable formulas for the initialization metadata."""
 
@@ -234,17 +229,17 @@ def initialization_description(initialization_id):
             "phi": "0.10",
             "theta": "0",
         },
-        "low_uniform": {
+        "vertical_uniform": {
+            "rho": "0.50",
+            "phi": "0.10",
+            "theta": "pi/2",
+        },
+        "underfilled_uniform": {
             "rho": "0.35",
             "phi": "0.05",
-            "theta": "pi/4",
+            "theta": "0",
         },
-        "linear_x": {
-            "rho": "0.30 + 0.40*x/L",
-            "phi": "0.05 + 0.10*x/L",
-            "theta": "-pi/2 + pi*x/L",
-        },
-        "smooth_2d": {
+        "spatially_varying": {
             "rho": "0.50 + 0.15*cos(2*pi*x/L)*cos(pi*y/H)",
             "phi": "0.10 + 0.05*sin(2*pi*x/L)*cos(pi*y/H)",
             "theta": "(pi/2)*sin(2*pi*x/L)*cos(pi*y/H)",
@@ -256,7 +251,6 @@ def initialization_description(initialization_id):
         raise ValueError(
             f"unknown initialization '{initialization_id}'."
         ) from None
-
 
 def build_beam_problem(
     comm,

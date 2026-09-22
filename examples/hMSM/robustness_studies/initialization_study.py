@@ -5,6 +5,8 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+import common
+
 from mpi4py import MPI
 
 from common import (
@@ -20,11 +22,15 @@ from common import (
 )
 
 
+# This baseline-mesh study uses the same 0.05 move limit as the
+# completed G(phi)-model study. The mesh study retains common.MOVE_LIMIT=0.005.
+common.MOVE_LIMIT = 0.05
+
 INITIALIZATIONS = (
     "baseline_uniform",
-    "low_uniform",
-    "linear_x",
-    "smooth_2d",
+    "vertical_uniform",
+    "underfilled_uniform",
+    "spatially_varying",
 )
 CASES = {
     initialization: StudyCase(
