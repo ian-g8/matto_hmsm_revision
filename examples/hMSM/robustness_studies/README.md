@@ -6,12 +6,14 @@ They do not modify the baseline example or MatTO's general optimization code.
 
 The common fixed settings are NH2 elasticity, the two equal-and-opposite load
 cases, 50 load steps, the original volume constraints and `1.0 mm` filter
-radii, density-projection continuation from `beta=1` to `beta=4`, 100 maximum
-iterations, and an optimization tolerance of `1e-5`.
+radii, density-projection continuation from `beta=1` to `beta=4`, and an
+optimization tolerance of `1e-5`.
 
-The MMA move limit is held fixed within each study: the G(phi)-model and
-initialization studies use `0.05`; the mesh study uses `0.005` because
-`0.05` produced unstable coarse-mesh updates.
+Each study keeps its own MMA protocol fixed across every case: the G(phi)-model
+study uses a `0.05` move limit and 100 iterations; the mesh study uses `0.005`
+and 100 iterations because `0.05` produced unstable coarse-mesh updates; the
+initialization study uses a `0.005` move limit and 200 iterations to compare
+its four seeds stably under one shared budget.
 
 ## Installation and launch
 
