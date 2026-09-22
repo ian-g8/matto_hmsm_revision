@@ -7,13 +7,11 @@ They do not modify the baseline example or MatTO's general optimization code.
 The common fixed settings are NH2 elasticity, the two equal-and-opposite load
 cases, 50 load steps, the original volume constraints and `1.0 mm` filter
 radii, density-projection continuation from `beta=1` to `beta=4`, 100 maximum
-iterations, an optimization tolerance of `1e-5`, and an MMA move limit of
-`0.005`.
+iterations, and an optimization tolerance of `1e-5`.
 
-The `0.005` move limit is deliberate and is held fixed across every robustness
-case. It differs from the `0.005` value reported for the earlier manuscript
-run, so this suite is a controlled robustness comparison rather than a claim
-to reproduce that earlier optimization trajectory exactly.
+The MMA move limit is held fixed within each study: the G(phi)-model and
+initialization studies use `0.05`; the mesh study uses `0.005` because
+`0.05` produced unstable coarse-mesh updates.
 
 ## Installation and launch
 
@@ -26,16 +24,16 @@ python -m pip install -e .
 Run a single preliminary baseline case before launching all cases:
 
 ```bash
-mpirun -n 4 python examples/hMSM/robustness_studies/g_model_study.py --case mooney
+python3 examples/hMSM/robustness_studies/g_model_study.py --case mooney
 ```
 
 Inspect that case's `history.csv`, `final_results.txt`, final arrays, and `.bp`
 datasets. Then run the full studies:
 
 ```bash
-mpirun -n 4 python examples/hMSM/robustness_studies/mesh_study.py
-mpirun -n 4 python examples/hMSM/robustness_studies/g_model_study.py
-mpirun -n 4 python examples/hMSM/robustness_studies/initialization_study.py
+python3 examples/hMSM/robustness_studies/mesh_study.py
+python3 examples/hMSM/robustness_studies/g_model_study.py
+python3 examples/hMSM/robustness_studies/initialization_study.py
 ```
 
 Each script accepts `--case CASE` to run a single case and
@@ -75,9 +73,9 @@ deterministic, feasible raw-field seeds:
 | ID | rho | phi | theta |
 | --- | --- | --- | --- |
 | baseline_uniform | 0.50 | 0.10 | 0 |
-| low_uniform | 0.35 | 0.05 | pi/4 |
-| linear_x | 0.30 + 0.40 x/L | 0.05 + 0.10 x/L | -pi/2 + pi x/L |
-| smooth_2d | smooth about 0.50 | smooth about 0.10 | smooth about 0 |
+| vertical_uniform | 0.50 | 0.10 | pi/2 |
+| underfilled_uniform | 0.35 | 0.05 | 0 |
+| spatially_varying | varies over x and y, mean 0.50 | varies over x and y, mean 0.10 | varies over x and y |
 
 This is a sensitivity check for a nonconvex problem. Similar results must not
 be interpreted as proof of global uniqueness.
@@ -107,7 +105,7 @@ The default layout is:
 results/
   mesh_study/{coarse,baseline,fine}/
   g_model_study/{mooney,guth,hill}/
-  initialization_study/{baseline_uniform,low_uniform,linear_x,smooth_2d}/
+  initialization_study/{baseline_uniform,vertical_uniform,underfilled_uniform,spatially_varying}/
 ```
 
 The study-level CSV files sit directly inside each study directory. The two
