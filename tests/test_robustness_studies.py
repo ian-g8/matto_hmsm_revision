@@ -99,8 +99,16 @@ def test_angle_transfer_respects_minus_pi_pi_wrap():
 )
 def test_initializations_are_feasible(initialization_id):
     x, y = np.meshgrid(
-        np.linspace(0.0, COMMON.BEAM_LENGTH, 21),
-        np.linspace(0.0, COMMON.BEAM_HEIGHT, 5),
+        np.linspace(
+            COMMON.BEAM_LENGTH / 42.0,
+            COMMON.BEAM_LENGTH - COMMON.BEAM_LENGTH / 42.0,
+            21,
+        ),
+        np.linspace(
+            COMMON.BEAM_HEIGHT / 10.0,
+            COMMON.BEAM_HEIGHT - COMMON.BEAM_HEIGHT / 10.0,
+            5,
+        ),
     )
     coordinates = np.vstack((x.ravel(), y.ravel()))
     values = COMMON.initialization_values(initialization_id)
