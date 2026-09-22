@@ -99,6 +99,7 @@ class StudyCase:
     mesh_ny: int
     optimization_model: str = "mooney"
     initialization_id: str = "baseline_uniform"
+    max_iter: int = 100
 
     @property
     def mesh_shape(self):
@@ -490,7 +491,7 @@ def case_settings(case):
         },
         "load_steps": 50,
         "optimization": {
-            "max_iter": 100,
+            "max_iter": case.max_iter,
             "opt_tol": 1.0e-5,
             "move": MOVE_LIMIT,
         },
@@ -600,6 +601,7 @@ def run_optimization_case(case, output_dir, comm=MPI.COMM_WORLD):
         initialization_id=case.initialization_id,
         output_dir=output_dir,
         postprocessors=[HistoryWriter()],
+        max_iter=case.max_iter,
     )
     driver = OptimizationDriver(problem)
 
