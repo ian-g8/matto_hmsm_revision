@@ -6,7 +6,7 @@ They do not modify the baseline example or MatTO's general optimization code.
 
 The common fixed settings are NH2 elasticity, the two equal-and-opposite load
 cases, 50 load steps, the original volume constraints and `1.0 mm` filter
-radii, density-projection continuation from `beta=1` to `beta=4`, 100 maximum
+radii, density-projection continuation from `beta=1` to `beta=4`, 200 maximum
 iterations, an optimization tolerance of `1e-5`, and an MMA move limit of
 `0.05`.
 

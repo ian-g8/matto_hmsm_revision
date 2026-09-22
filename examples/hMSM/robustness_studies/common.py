@@ -266,7 +266,7 @@ def build_beam_problem(
     initialization_id,
     output_dir,
     postprocessors=None,
-    max_iter=100,
+    max_iter=200,
 ):
     """Build the agreed restorative-beam problem without running it."""
 
@@ -496,7 +496,7 @@ def case_settings(case):
         },
         "load_steps": 50,
         "optimization": {
-            "max_iter": 100,
+            "max_iter": 200,
             "opt_tol": 1.0e-5,
             "move": MOVE_LIMIT,
         },
@@ -865,7 +865,7 @@ def interpolate_structured_field(source_coordinates, source_values, targets):
 
     source_coordinates = np.asarray(source_coordinates)
     source_values = np.asarray(source_values, dtype=float).reshape(-1)
-    targets = np.asarray(targets)
+    targets = np.asarray(targets, dtype=float)
     if len(source_coordinates) != len(source_values):
         raise ValueError(
             "saved physical field and reconstructed source space have "
@@ -887,8 +887,14 @@ def interpolate_structured_field(source_coordinates, source_values, targets):
     interpolator = RegularGridInterpolator(
         (y_values, x_values), grid, method="linear", bounds_error=True
     )
+    # CG1 coordinates reconstructed from two independently created meshes can
+    # differ from the exact boundary coordinate by roundoff. Round targets to
+    # the same precision used to construct the source tensor grid before
+    # asking the interpolator to enforce its bounds.
+    target_x = np.round(targets[:, 0], 12)
+    target_y = np.round(targets[:, 1], 12)
     return np.asarray(
-        interpolator(np.column_stack((targets[:, 1], targets[:, 0]))),
+        interpolator(np.column_stack((target_y, target_x))),
         dtype=float,
     )
 
