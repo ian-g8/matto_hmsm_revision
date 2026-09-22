@@ -90,7 +90,12 @@ def test_angle_transfer_respects_minus_pi_pi_wrap():
 
 @pytest.mark.parametrize(
     "initialization_id",
-    ("baseline_uniform", "low_uniform", "linear_x", "smooth_2d"),
+    (
+        "baseline_uniform",
+        "vertical_uniform",
+        "underfilled_uniform",
+        "spatially_varying",
+    ),
 )
 def test_initializations_are_feasible(initialization_id):
     x, y = np.meshgrid(
