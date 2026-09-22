@@ -22,9 +22,10 @@ from common import (
 )
 
 
-# This baseline-mesh study uses the same 0.05 move limit as the
-# completed G(phi)-model study. The mesh study retains common.MOVE_LIMIT=0.005.
-common.MOVE_LIMIT = 0.05
+# Use a stable update size for all 200-iteration initialization cases.
+# The mesh study also retains common.MOVE_LIMIT = 0.005.
+common.MOVE_LIMIT = 0.005
+INITIALIZATION_MAX_ITER = 200
 
 INITIALIZATIONS = (
     "baseline_uniform",
@@ -39,6 +40,7 @@ CASES = {
         BASELINE_MESH[0],
         BASELINE_MESH[1],
         initialization_id=initialization,
+        max_iter=INITIALIZATION_MAX_ITER,
     )
     for initialization in INITIALIZATIONS
 }
