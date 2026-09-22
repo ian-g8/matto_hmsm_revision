@@ -266,7 +266,7 @@ def build_beam_problem(
     initialization_id,
     output_dir,
     postprocessors=None,
-    max_iter=200,
+    max_iter=100,
 ):
     """Build the agreed restorative-beam problem without running it."""
 
@@ -496,7 +496,7 @@ def case_settings(case):
         },
         "load_steps": 50,
         "optimization": {
-            "max_iter": 200,
+            "max_iter": 100,
             "opt_tol": 1.0e-5,
             "move": MOVE_LIMIT,
         },
